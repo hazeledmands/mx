@@ -57,9 +57,9 @@ if ! ($TMUX_CMD has-session -t "$SESSION" >/dev/null 2>&1); then
   if [ -x "$PWD"/.tmux ]; then
     "$PWD"/.tmux "$SESSION"
   else
-    $TMUX_CMD new-session -s "$SESSION" -n editor -d; \
-      send-keys "$EDITOR" C-m ':CtrlP' C-m; \
-      new-window -n shell -t "$SESSION"
+    $TMUX_CMD new-session -s "$SESSION" -n editor -d
+    $TMUX_CMD send-keys "$EDITOR" C-m ':CtrlP' C-m
+    $TMUX_CMD new-window -n shell -t "$SESSION"
 
     $TMUX_CMD select-window -t "$SESSION":1
   fi
