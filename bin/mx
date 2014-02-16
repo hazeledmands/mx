@@ -41,7 +41,7 @@ set -e
 
 TMUX_CMD="tmux -2"
 CURRENT_TMUX_SOCKET=$TMUX
-TMUX=
+TMUX= # clear out the tmux variable locally so we can create (non-nested) sessions
 
 if [ -z "$1" ]; then
   SESSION="${PWD##*/}"
