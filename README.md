@@ -1,4 +1,4 @@
-# mx 0.5.0
+# mx 0.5.1
 
 Use [tmux](http://tmux.sourceforge.net/) to easily and automatically create siloed workspaces for your projects.
 
