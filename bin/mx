@@ -49,6 +49,8 @@ else
   SESSION="$1"
 fi
 
+SESSION="$(echo $SESSION | tr . _)"
+
 if ! ($TMUX_CMD has-session -t "$SESSION" >/dev/null 2>&1); then
   if [ -d "$PROJECTS"/"$SESSION" ]; then
     cd "$PROJECTS"/"$SESSION"
