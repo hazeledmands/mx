@@ -4,6 +4,10 @@ Use [tmux](http://tmux.sourceforge.net/) to easily and automatically create silo
 
 [Read more about the philosophy behind mx.](http://wynnnetherland.com/journal/tmux-stateful-workspaces-for-frictionless-context-switching)
 
+## Demo
+
+![An animated image of someone using mx -- read below for more information](https://raw.github.com/demands/mx/master/demo.gif)
+
 ## Usage
 
 ```bash
