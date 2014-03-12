@@ -51,7 +51,7 @@ fi
 
 SESSION="$(echo $SESSION | tr . _)"
 
-if ! ($TMUX_CMD has-session -t "$SESSION" >/dev/null 2>&1); then
+if ! ($TMUX_CMD list-sessions | cut -d':' -f1 | grep -q ^"$SESSION"\$); then
   if [ -d "$PROJECTS"/"$SESSION" ]; then
     cd "$PROJECTS"/"$SESSION"
   fi
