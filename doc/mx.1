@@ -1,0 +1,24 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "MX" "1" "April 2014" "" ""
+.
+.SH "NAME"
+\fBmx\fR \- a tmux launcher and session manager
+.
+.SH "SYNOPSIS"
+\fBmx\fR [\fIsession\fR|\fIpath\fR]
+.
+.SH "DESCRIPTION"
+Create siloed tmux(1) sessions for your projects\. It will \'auto\-launch\' projects for you, so long it can find them based on the \fIsession\fR name you provide:
+.
+.SH "OPTIONS"
+.
+.TP
+\fIsession\fR
+The name of the session to spawn\. If there is already a tmux session running with that name, it will be opened\. If $PROJECTS/\fIsession\fR is a directory, a new tmux session will be created there\.
+.
+.TP
+\fIpath\fR
+The full path to a directory\. A new tmux session will be created in that directory, and it will be named after the basename(1) of \fIpath\fR\.
+
