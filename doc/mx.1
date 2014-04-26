@@ -7,18 +7,82 @@
 \fBmx\fR \- a tmux launcher and session manager
 .
 .SH "SYNOPSIS"
-\fBmx\fR [\fIsession\fR|\fIpath\fR]
+\fBmx\fR \fIsession\fR
+.br
+\fBmx\fR \fIproject\fR
+.br
+\fBmx\fR \fIpath\fR
 .
 .SH "DESCRIPTION"
-Create siloed tmux(1) sessions for your projects\. It will \'auto\-launch\' projects for you, so long it can find them based on the \fIsession\fR name you provide:
+Create siloed tmux(1) sessions for your projects\. It will \'auto\-launch\' projects for you, so long as it can find them based on the arguments that you provide\.
 .
-.SH "OPTIONS"
-.
-.TP
-\fIsession\fR
-The name of the session to spawn\. If there is already a tmux session running with that name, it will be opened\. If $PROJECTS/\fIsession\fR is a directory, a new tmux session will be created there\.
+.P
+\fBmx\fR will attempt to interperet the provided arguments in the following order:
 .
 .TP
-\fIpath\fR
-The full path to a directory\. A new tmux session will be created in that directory, and it will be named after the basename(1) of \fIpath\fR\.
+\fBmx\fR \fIsession\fR
+Reattach to a pre\-existing tmux session with the provided name\. This is the equivalent of running \fBtmux attach \-t <session>\fR, but much more short and convenient\.
+.
+.TP
+\fBmx\fR \fIproject\fR
+If \fIproject\fR is a directory inside your <~/Projects> directory, this command will spawn and attach to a new tmux session named \fIproject\fR in that directory\. It will set up a workspace inside the session according to the rules described in the \fBSETUP\fR section below\.
+.
+.TP
+\fBmx\fR \fIpath\fR
+If \fIpath\fR references a directory, this command will spawn and attach to a new tmux session in that directory, and it will be named after the basename(1) of \fIpath\fR\. It will set up a workspace inside the session according to the rules described in the \fBSETUP\fR section below\.
+.
+.TP
+\fBmx\fR \fIsession\fR
+If none of the above rules apply, it will spawn a new tmux sessin in the current working directory with the name of \fIsession\fR\. The workspace will be created according to the rules described in the \fBSETUP\fR section below\.
+.
+.SH "SETUP"
+If the target directory has a <\.tmux> file, that file will be executed instead of the default window setup\. An example <\.tmux> file is listed in the next section\.
+.
+.P
+If there is no <\.tmux> file, then it will open two windows by default\. Here are the windows:
+.
+.TP
+\fBeditor\fR
+The editor defined by the \fI$EDITOR\fR environment variable\.
+.
+.TP
+\fBshell\fR
+A default shell\.
+.
+.SH "THE FORMAT OF A \.tmux FILE"
+Here is an example:
+.
+.P
+#!/usr/bin/env sh
+.br
+SESSION="$1"
+.br
+cd ~/.dotfiles
+.br
+tmux new-session -s "$SESSION" -n editor -d
+.br
+tmux send-keys 'e' C-m ':CtrlP' C-m
+.br
+tmux new-window -n shell -t "$SESSION"
+.br
+tmux select-window -t "$SESSION":1
+.
+.SH "SEE ALSO"
+tmux(1)
+.
+.SH "AUTHORS"
+.
+.IP "\(bu" 4
+Wynn Netherland \- http://github\.com/pengwynn
+.
+.IP "\(bu" 4
+Max Edmands \- http://maxedmands\.com
+.
+.IP "\(bu" 4
+Adam Jahnke \- http://github\.com/adamyonk
+.
+.IP "\(bu" 4
+Henrik Hodne \- http://github\.com/henrikhodne
+.
+.IP "" 0
 
