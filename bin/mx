@@ -3,38 +3,49 @@
 # mx
 # version 0.5.2
 
-set -e
+set -o errexit
+set -o nounset
 
-TMUX_CMD="tmux -2"
-CURRENT_TMUX_SOCKET=$TMUX
-TMUX= # clear out the tmux variable locally so we can create (non-nested) sessions
-
-if [ -z "$1" ]; then
-  SESSION="${PWD##*/}"
+# Are we in a tmux session?
+if [[ -v TMUX ]]; then
+  inside_tmux_session=1
+  TMUX= # clear out the TMUX variable locally so we can create (non-nested) sessions
 else
-  SESSION="$1"
+  inside_tmux_session=0
 fi
+readonly inside_tmux_session
 
-SESSION="$(echo $SESSION | tr . _)"
+# What session do we want to connect to?
+if [[ $# = 0 ]]; then
+  session="${PWD##*/}"
+else
+  session=$1
+fi
+readonly session="$(echo $session | tr . _)"
 
-if ! ($TMUX_CMD list-sessions | cut -d':' -f1 | grep -q ^"$SESSION"\$); then
-  if [ -d "$PROJECTS"/"$SESSION" ]; then
-    cd "$PROJECTS"/"$SESSION"
+# How should we use the tmux command?
+readonly tmux_cmd="tmux -2"
+
+# Create the session, if it doesn't already exist
+if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session"\$); then
+  if [ -d "$PROJECTS"/"$session" ]; then
+    cd "$PROJECTS"/"$session"
   fi
 
-  if [ -x "$PWD"/.tmux ]; then
-    "$PWD"/.tmux "$SESSION"
+  if [[ -x "$PWD"/.tmux ]]; then
+    "$PWD"/.tmux "$session"
   else
-    $TMUX_CMD new-session -s "$SESSION" -n editor -d
-    $TMUX_CMD send-keys -t "$SESSION" "$EDITOR" C-m ':CtrlP' C-m
-    $TMUX_CMD new-window -n shell -t "$SESSION"
+    $tmux_cmd new-session -s "$session" -n editor -d
+    $tmux_cmd send-keys -t "$session" "$EDITOR" C-m ':CtrlP' C-m
+    $tmux_cmd new-window -n shell -t "$session"
 
-    $TMUX_CMD select-window -t "$SESSION":1
+    $tmux_cmd select-window -t "$session":1
   fi
 fi
 
-if [ -z "$CURRENT_TMUX_SOCKET" ]; then
-  $TMUX_CMD attach -t "$SESSION"
+# Connect to the session
+if [[ $inside_tmux_session = 1 ]]; then
+  $tmux_cmd switch-client -t "$session"
 else
-  $TMUX_CMD switch-client -t "$SESSION"
+  $tmux_cmd attach -t "$session"
 fi
