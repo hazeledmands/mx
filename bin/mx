@@ -17,7 +17,10 @@ readonly inside_tmux_session
 
 # What session do we want to connect to?
 if [[ $# = 0 ]]; then
-  session="${PWD##*/}"
+  session="$(basename $PWD)"
+elif [[ -d $1 ]]; then
+  session="$(basename $1)"
+  session_path=$1
 else
   session=$1
 fi
@@ -28,7 +31,9 @@ readonly tmux_cmd="tmux -2"
 
 # Create the session, if it doesn't already exist
 if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session"\$); then
-  if [ -d "$PROJECTS"/"$session" ]; then
+  if [[ -v session_path ]]; then
+    cd $session_path
+  elif [[ -d "$PROJECTS"/"$session" ]]; then
     cd "$PROJECTS"/"$session"
   fi
 
