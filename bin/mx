@@ -36,7 +36,7 @@ if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session"\$); then
     "$PWD"/.tmux "$session"
   else
     $tmux_cmd new-session -s "$session" -n editor -d
-    $tmux_cmd send-keys -t "$session" "$EDITOR" C-m ':CtrlP' C-m
+    $tmux_cmd send-keys -t "$session" "$EDITOR" C-m
     $tmux_cmd new-window -n shell -t "$session"
 
     $tmux_cmd select-window -t "$session":1
