@@ -11,6 +11,7 @@ Object.keys(process.env).forEach(function(key) {
 env.PATH = STUBS + ":" + process.env.PATH;
 env.EDITOR = '/usr/bin/nano'
 env.PROJECTS = path.join(__dirname, 'mocks', 'projects')
+env.TMUX = null
 
 module.exports = function(args, cb) {
   exec(MX + " " + args, {env: env, cwd: CWD}, cb);
