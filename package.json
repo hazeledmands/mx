@@ -2,7 +2,12 @@
   "name": "mx",
   "version": "0.5.2",
   "description": "a tmux launcher and session manager",
-  "author": "Max Edmands (http://www.maxedmands.com)",
+  "contributors": [
+    "Max Edmands (http://www.maxedmands.com)",
+    "Wynn Netherland (http://github.com/pengwynn)",
+    "Adam Jahnke (http://github.com/adamyonk)",
+    "Henrik Hodne (http://github.com/henrikhodne)"
+  ],
   "homepage": "https://github.com/demands/mx",
   "private": true,
   "license": "MIT",
