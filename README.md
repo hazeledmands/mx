@@ -1,7 +1,7 @@
 # mx
 
 ![Github release](http://img.shields.io/github/release/demands/mx.svg?style=flat)
-![Test status](http://img.shields.io/travis/demands/mx.svg?style=flat)
+[![Test status](http://img.shields.io/travis/demands/mx.svg?style=flat)](https://travis-ci.org/demands/mx)
 
 Use [tmux](http://tmux.sourceforge.net/) to easily and automatically create siloed workspaces for your projects.
 
