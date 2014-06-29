@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 var fs = require('fs');
+var path = require('path');
 var SESSIONS = __dirname + '/.sessions'
 var args = process.argv;
 
 if(args.indexOf('list-sessions') > 0) {
   fs.createReadStream(SESSIONS).pipe(process.stdout);
 } else {
-  console.log("tmux " + args.splice(2).join(' '));
+  console.log(path.basename(process.cwd()) + "> tmux " + args.splice(2).join(' '));
 }

@@ -32,3 +32,7 @@ brew install mx
 ## Credits
 
 Discovered in [pengwynn's dotfiles](https://github.com/pengwynn/dotfiles/blob/master/bin/mx), modified for general use.
+
+## License
+
+MIT.
