@@ -26,7 +26,7 @@ fi
 readonly session="$(echo $session | tr . _)"
 
 # How should we use the tmux command?
-if which -s tmux; then
+if which tmux 1>/dev/null; then
   readonly tmux_cmd="tmux -2"
 elif [[ -x /usr/bin/tmux ]]; then
   readonly tmux_cmd="/usr/bin/tmux -2"
