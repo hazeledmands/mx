@@ -4,6 +4,7 @@
   "description": "a tmux launcher and session manager",
   "author": "Max Edmands (http://www.maxedmands.com)",
   "homepage": "https://github.com/demands/mx",
+  "private": true,
   "license": "MIT",
   "directories": {
     "doc": "doc",
