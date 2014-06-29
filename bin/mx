@@ -6,7 +6,7 @@ set -o errexit
 set -o nounset
 
 # Are we in a tmux session?
-if [[ -v TMUX ]]; then
+if [[ -n ${TMUX:-} ]]; then
   inside_tmux_session=1
   TMUX= # clear out the TMUX variable locally so we can create (non-nested) sessions
 else
@@ -26,21 +26,48 @@ fi
 readonly session="$(echo $session | tr . _)"
 
 # How should we use the tmux command?
-readonly tmux_cmd="tmux -2"
+if which -s tmux; then
+  readonly tmux_cmd="tmux -2"
+elif [[ -x /usr/bin/tmux ]]; then
+  readonly tmux_cmd="/usr/bin/tmux -2"
+elif [[ -x /usr/local/bin/tmux ]]; then
+  readonly tmux_cmd="/usr/local/bin/tmux -2"
+else
+  echo "Could not find tmux on your system. Try adding it to your \$PATH?" 1>&2
+  exit -1
+fi
+
+# What is our projects directory?
+if [[ -n ${PROJECTS:-} ]]; then
+  readonly projects_directory=$PROJECTS
+elif [[ -d ~/Projects ]]; then
+  readonly projects_directory=~/Projects
+elif [[ -d ~/projects ]]; then
+  readonly projects_directory=~/projects
+else
+  readonly projects_directory=~
+fi
+
+# What is our default editor?
+if [[ -n ${EDITOR:-} ]]; then
+  readonly editor=$EDITOR
+else
+  readonly editor=$(which vim)
+fi
 
 # Create the session, if it doesn't already exist
 if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session"\$); then
-  if [[ -v session_path ]]; then
+  if [[ -n ${session_path:-} ]]; then
     cd $session_path
-  elif [[ -d "$PROJECTS"/"$session" ]]; then
-    cd "$PROJECTS"/"$session"
+  elif [[ -d "$projects_directory"/"$session" ]]; then
+    cd "$projects_directory"/"$session"
   fi
 
   if [[ -x "$PWD"/.tmux ]]; then
     "$PWD"/.tmux "$session"
   else
     $tmux_cmd new-session -s "$session" -n editor -d
-    $tmux_cmd send-keys -t "$session" "$EDITOR" C-m
+    $tmux_cmd send-keys -t "$session" "$editor" C-m
     $tmux_cmd new-window -n shell -t "$session"
 
     $tmux_cmd select-window -t "$session":1
