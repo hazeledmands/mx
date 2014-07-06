@@ -1,11 +1,17 @@
 # mx
 
-![Github release](http://img.shields.io/github/release/demands/mx.svg?style=flat) * 
+![Github release](http://img.shields.io/github/release/demands/mx.svg?style=flat) *
 [![Test status](http://img.shields.io/travis/demands/mx.svg?style=flat)](https://travis-ci.org/demands/mx)
 
-Use [tmux](http://tmux.sourceforge.net/) to easily and automatically create siloed workspaces for your projects.
+Do you suffer from **short programming attention span**?
 
-[Read more about the philosophy behind mx.](http://wynnnetherland.com/journal/tmux-stateful-workspaces-for-frictionless-context-switching)
+Do you have **too many projects going on at once**?
+
+Try **mx**! mx creates **project-specific terminal workspaces** that **remember where you were** when you jump between your fancy new pizza-as-a-service app idea, the data stream from the hygrometer attached to your petunias, and your brand-new node.js HTTP framework!
+
+mx leverages the power of [tmux](http://tmux.sourceforge.net/) to create stateful workspaces for your projects, so you can work on lots of projects at once without losing your place. It'll **change the way you work**, I **promise**. [Read more about the philosophy behind mx](http://wynnnetherland.com/journal/tmux-stateful-workspaces-for-frictionless-context-switching).
+
+
 
 ## Demo
 
