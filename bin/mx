@@ -63,12 +63,10 @@ fi
 
 # Create the session, if it doesn't already exist
 if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session"\$); then
-  cd $session_path
-
   if [[ -x "$PWD"/.tmux ]]; then
     "$PWD"/.tmux "$session"
   else
-    $tmux_cmd new-session -s "$session" -n editor -d
+    $tmux_cmd new-session -c "$session_path" -s "$session" -n editor -d
     $tmux_cmd send-keys -t "$session" "$editor" C-m
     $tmux_cmd new-window -n shell -t "$session"
 
