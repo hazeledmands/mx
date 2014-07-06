@@ -26,17 +26,6 @@ else
   exit -1
 fi
 
-# What session do we want to connect to?
-if [[ $# = 0 ]]; then
-  session="$(basename $PWD)"
-elif [[ -d $1 ]]; then
-  session="$(basename $1)"
-  session_path=$1
-else
-  session=$1
-fi
-readonly session="$(echo $session | tr . _)"
-
 # What is our projects directory?
 if [[ -n ${PROJECTS:-} ]]; then
   readonly projects_directory=$PROJECTS
@@ -48,6 +37,23 @@ else
   readonly projects_directory=~
 fi
 
+# What session do we want to connect to? (and what directory should it be in?)
+if [[ $# = 0 ]]; then
+  session="$(basename $PWD)"
+  session_path=$PWD
+elif [[ -d $1 ]]; then
+  session="$(basename $1)"
+  session_path=$1
+elif [[ -d "$projects_directory/$1" ]]; then
+  session=$1
+  session_path="$projects_directory/$session"
+else
+  session=$1
+  session_path=$PWD
+fi
+readonly session="$(echo $session | tr . _)"
+readonly session_path
+
 # What is our default editor?
 if [[ -n ${EDITOR:-} ]]; then
   readonly editor=$EDITOR
@@ -57,11 +63,7 @@ fi
 
 # Create the session, if it doesn't already exist
 if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session"\$); then
-  if [[ -n ${session_path:-} ]]; then
-    cd $session_path
-  elif [[ -d "$projects_directory"/"$session" ]]; then
-    cd "$projects_directory"/"$session"
-  fi
+  cd $session_path
 
   if [[ -x "$PWD"/.tmux ]]; then
     "$PWD"/.tmux "$session"
