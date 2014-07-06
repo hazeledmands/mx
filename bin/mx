@@ -14,17 +14,6 @@ else
 fi
 readonly inside_tmux_session
 
-# What session do we want to connect to?
-if [[ $# = 0 ]]; then
-  session="$(basename $PWD)"
-elif [[ -d $1 ]]; then
-  session="$(basename $1)"
-  session_path=$1
-else
-  session=$1
-fi
-readonly session="$(echo $session | tr . _)"
-
 # How should we use the tmux command?
 if which tmux 1>/dev/null; then
   readonly tmux_cmd="tmux -2"
@@ -36,6 +25,17 @@ else
   echo "Could not find tmux on your system. Try adding it to your \$PATH?" 1>&2
   exit -1
 fi
+
+# What session do we want to connect to?
+if [[ $# = 0 ]]; then
+  session="$(basename $PWD)"
+elif [[ -d $1 ]]; then
+  session="$(basename $1)"
+  session_path=$1
+else
+  session=$1
+fi
+readonly session="$(echo $session | tr . _)"
 
 # What is our projects directory?
 if [[ -n ${PROJECTS:-} ]]; then
