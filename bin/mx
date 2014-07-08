@@ -78,5 +78,5 @@ fi
 if [[ $inside_tmux_session = 1 ]]; then
   $tmux_cmd switch-client -t "$session"
 else
-  $tmux_cmd attach -t "$session"
+  $tmux_cmd attach-client -t "$session"
 fi
