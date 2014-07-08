@@ -63,7 +63,7 @@ fi
 
 # Create the session, if it doesn't already exist
 if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session"\$); then
-  if [[ -x "$PWD"/.tmux ]]; then
+  if [[ -x "$session_path"/.tmux ]]; then
     cd "$session_path"
     "$PWD"/.tmux "$session"
   else
