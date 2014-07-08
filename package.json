@@ -1,6 +1,6 @@
 {
   "name": "mx",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "a tmux launcher and session manager",
   "contributors": [
     "Max Edmands (http://www.maxedmands.com)",
