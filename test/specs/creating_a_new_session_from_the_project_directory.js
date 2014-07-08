@@ -23,7 +23,7 @@ test('creating a new session from the $PROJECT directory', function(t) {
     );
 
     t.equal(output[2],
-      'mx> tmux -2 new-window -n shell -t rice_crispies',
+      'mx> tmux -2 new-window -c test/mocks/projects/rice_crispies -n shell -t rice_crispies',
       'mx should tell tmux to open a new window'
     );
 

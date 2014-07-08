@@ -25,7 +25,7 @@ test('creating new session in current directory', function(t) {
     );
 
     t.equal(output[2],
-      'mx> tmux -2 new-window -n shell -t horse_js',
+      'mx> tmux -2 new-window -c ' + currentDir + ' -n shell -t horse_js',
       'mx should tell tmux to open a new window'
     );
 

@@ -23,7 +23,7 @@ test('opening a session in a $PROJECT directory with dots', function(t) {
     );
 
     t.equal(output[2],
-      'mx> tmux -2 new-window -n shell -t name_with_dots',
+      'mx> tmux -2 new-window -c test/mocks/projects/name.with.dots -n shell -t name_with_dots',
       'mx should tell tmux to open a new window'
     );
 

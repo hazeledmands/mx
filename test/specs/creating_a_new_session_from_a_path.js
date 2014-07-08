@@ -22,7 +22,7 @@ test('creating a new session from a path', function(t) {
     );
 
     t.equal(output[2],
-      'mx> tmux -2 new-window -n shell -t red_sofa_project',
+      'mx> tmux -2 new-window -c test/mocks/red_sofa_project -n shell -t red_sofa_project',
       'mx should tell tmux to open a new window'
     );
 
