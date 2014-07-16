@@ -13,6 +13,15 @@ env.EDITOR = '/usr/bin/nano'
 env.PROJECTS = path.join('test', 'mocks', 'projects')
 env.TMUX = null
 
-module.exports = function(args, cb) {
-  exec(MX + " " + args, {env: env, cwd: CWD}, cb);
+module.exports = function(opts, cb) {
+  if(typeof opts === "string") {
+    opts = {
+      args: opts
+    }
+  }
+
+  if(!opts.args) opts.args = ''
+  if(!opts.cwd) opts.cwd = CWD
+
+  exec(MX + " " + opts.args, {env: env, cwd: opts.cwd}, cb);
 };

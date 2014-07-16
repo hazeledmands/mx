@@ -5,6 +5,11 @@
 set -o errexit
 set -o nounset
 
+get_abs_filename() {
+  # $1 : relative filename
+  echo "$(cd "$(dirname "$1")" && pwd)/"$(basename "$1")""
+}
+
 # Are we in a tmux session?
 if [[ -n ${TMUX:-} ]]; then
   inside_tmux_session=1
@@ -43,7 +48,7 @@ if [[ $# = 0 ]]; then
   session_path=$PWD
 elif [[ -d $1 ]]; then
   session="$(basename $1)"
-  session_path=$1
+  session_path=$(get_abs_filename $1)
 elif [[ -d "$projects_directory/$1" ]]; then
   session=$1
   session_path="$projects_directory/$session"

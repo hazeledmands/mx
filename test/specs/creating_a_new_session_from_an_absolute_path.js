@@ -1,9 +1,9 @@
 var test = require('tap').test;
 var harness = require('../harness');
 var path = require('path');
-var SESSION = path.join('test', 'mocks', 'red_sofa_project');
+var SESSION = path.resolve(__dirname, '..', 'mocks', 'red_sofa_project');
 
-test('creating a new session from a path', function(t) {
+test('creating a new session from an absolute path', function(t) {
   t.plan(8);
   harness(SESSION, function(err, stdout, stderr) {
     var output = stdout.trim().split('\n');
@@ -12,7 +12,7 @@ test('creating a new session from a path', function(t) {
     t.equal(output.length, 5, 'mx should invoke tmux 5 times');
 
     t.equal(output[0],
-      'mx> tmux -2 new-session -c test/mocks/red_sofa_project -s red_sofa_project -n editor -d',
+      'mx> tmux -2 new-session -c ' + SESSION + ' -s red_sofa_project -n editor -d',
       'mx should tell tmux to create a new session from the red_sofa_project directory'
     );
 
@@ -22,7 +22,7 @@ test('creating a new session from a path', function(t) {
     );
 
     t.equal(output[2],
-      'mx> tmux -2 new-window -c test/mocks/red_sofa_project -n shell -t red_sofa_project',
+      'mx> tmux -2 new-window -c ' + SESSION + ' -n shell -t red_sofa_project',
       'mx should tell tmux to open a new window'
     );
 
