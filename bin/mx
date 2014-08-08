@@ -56,7 +56,7 @@ else
   session=$1
   session_path=$PWD
 fi
-readonly session="${session//./_}"
+readonly session="${session//./_}" # replace dots with underscores
 readonly session_path
 
 # What is our default editor?
