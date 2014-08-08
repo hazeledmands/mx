@@ -56,7 +56,7 @@ else
   session=$1
   session_path=$PWD
 fi
-readonly session="$(echo $session | tr . _)"
+readonly session="${session//./_}"
 readonly session_path
 
 # What is our default editor?
