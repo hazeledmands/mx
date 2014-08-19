@@ -65,8 +65,8 @@ readonly session_path
 
 # Is there a config file in the session directory?
 config_file=$session_path/.tmux
-declare -a windows
-declare -a commands
+windows=()
+commands=()
 if [[ -x $config_file ]]; then
   while read line; do
     window_count=${#windows[@]}
