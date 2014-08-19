@@ -18,7 +18,7 @@ test('creating a new session from the $PROJECT directory', function(t) {
     );
 
     t.equal(output[1],
-      'mx> tmux -2 send-keys -t rice_crispies /usr/bin/nano C-m',
+      'mx> tmux -2 send-keys -t rice_crispies:1 /usr/bin/nano C-m',
       'mx should tell tmux to open an editor'
     );
 

@@ -18,7 +18,7 @@ test('opening a session in a $PROJECT directory with dots', function(t) {
     );
 
     t.equal(output[1],
-      'mx> tmux -2 send-keys -t name_with_dots /usr/bin/nano C-m',
+      'mx> tmux -2 send-keys -t name_with_dots:1 /usr/bin/nano C-m',
       'mx should tell tmux to open an editor'
     );
 

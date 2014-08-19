@@ -9,6 +9,10 @@ fi
 set -o errexit
 set -o nounset
 
+
+readonly REGEX_SETTING="^(session|cmd)=(.*)$"
+readonly REGEX_SECTION="^\[([a-zA-Z_]+)\]"
+
 get_abs_filename() {
   # $1 : relative filename
   echo "$(cd "$(dirname "$1")" && pwd)/"$(basename "$1")""
@@ -46,47 +50,85 @@ else
   readonly projects_directory=~
 fi
 
-# What session do we want to connect to? (and what directory should it be in?)
+# What is the path for the session we want to connect to?
 if [[ $# = 0 ]]; then
-  session="$(basename $PWD)"
   session_path=$PWD
 elif [[ -d $1 ]]; then
-  session="$(basename $1)"
   session_path=$(get_abs_filename $1)
 elif [[ -d "$projects_directory/$1" ]]; then
-  session=$1
-  session_path="$projects_directory/$session"
+  session_path="$projects_directory/$1"
 else
-  session=$1
+  session_name=$1 # session gets provided name, by default
   session_path=$PWD
 fi
-readonly session="${session//./_}" # replace dots with underscores
 readonly session_path
 
-# What is our default editor?
-if [[ -n ${EDITOR:-} ]]; then
-  readonly editor=$EDITOR
+# Is there a config file in the session directory?
+config_file=$session_path/.tmux
+windows=()
+commands=()
+if [[ -x $config_file ]]; then
+  while read line; do
+    window_count=${#windows[@]}
+    if [[ $line =~ $REGEX_SECTION ]]; then
+      windows[$window_count]=${BASH_REMATCH[1]}
+    elif [[ $line =~ $REGEX_SETTING ]]; then
+      cmd=${BASH_REMATCH[1]}
+      val=${BASH_REMATCH[2]}
+      if [[ $cmd == 'session' ]] && [[ $window_count -eq 0 ]]; then
+        session_name=$val
+      elif [[ $cmd == 'cmd' ]] && [[ $window_count -ge 1 ]]; then
+        commands[$(( $window_count - 1 ))]=$val
+      fi
+    fi
+  done < $config_file
+
+  if [[ ${#windows} -eq 0 ]]; then
+    windows[0]=shell
+  fi
 else
-  readonly editor=$(which vim)
+  # What is our default editor?
+  if [[ -n ${EDITOR:-} ]]; then
+    readonly editor=$EDITOR
+  else
+    readonly editor=$(which vim)
+  fi
+
+  windows[0]=editor
+  windows[1]=shell
+  commands[0]=$editor' C-m'
 fi
 
-# Create the session, if it doesn't already exist
-if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session"\$); then
-  if [[ -x "$session_path"/.tmux ]]; then
-    cd "$session_path"
-    "$PWD"/.tmux "$session"
-  else
-    $tmux_cmd new-session -c "$session_path" -s "$session" -n editor -d
-    $tmux_cmd send-keys -t "$session" "$editor" C-m
-    $tmux_cmd new-window -c "$session_path" -n shell -t "$session"
+# decide on session_name
+session_name=${session_name:=$(basename $session_path)} # by default, use the directory
+readonly session_name="${session_name//./_}" # replace dots with underscores
 
-    $tmux_cmd select-window -t "$session":1
-  fi
+# Create the session, if it doesn't already exist
+if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session_name"\$); then
+
+  window_count=${#windows[@]}
+
+  for (( i = 0; i < $window_count; i++ )); do
+    window_name=${windows[i]}
+    window_address="$session_name:$(( $i + 1 ))"
+    window_command="${commands[$i]:-}"
+
+    if [[ $i -eq 0 ]]; then
+      $tmux_cmd new-session -c "$session_path" -s "$session_name" -n "$window_name" -d
+    else
+      $tmux_cmd new-window -c "$session_path" -n "$window_name" -t "$session_name"
+    fi
+    if [[ -n "$window_command" ]]; then
+      $tmux_cmd send-keys -t "$window_address" "$window_command"
+    fi
+  done
+
+  $tmux_cmd select-window -t "$session_name":1
 fi
 
 # Connect to the session
 if [[ $inside_tmux_session = 1 ]]; then
-  $tmux_cmd switch-client -t "$session"
+  $tmux_cmd switch-client -t "$session_name"
 else
-  $tmux_cmd attach-session -t "$session" -c "$session_path"
+  $tmux_cmd attach-session -t "$session_name" -c "$session_path"
 fi
