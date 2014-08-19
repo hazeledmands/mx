@@ -17,7 +17,7 @@ test('creating a new session from an absolute path', function(t) {
     );
 
     t.equal(output[1],
-      'mx> tmux -2 send-keys -t red_sofa_project /usr/bin/nano C-m',
+      'mx> tmux -2 send-keys -t red_sofa_project:1 /usr/bin/nano C-m',
       'mx should tell tmux to open an editor'
     );
 

@@ -20,7 +20,7 @@ test('creating new session in current directory', function(t) {
     );
 
     t.equal(output[1],
-      'mx> tmux -2 send-keys -t horse_js /usr/bin/nano C-m',
+      'mx> tmux -2 send-keys -t horse_js:1 /usr/bin/nano C-m',
       'mx should tell tmux to open an editor'
     );
 
