@@ -16,7 +16,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "tap ./test/specs"
+    "test": "./test/run"
   },
   "repository": {
     "type": "git",
@@ -31,8 +31,5 @@
   ],
   "bugs": {
     "url": "https://github.com/demands/mx/issues"
-  },
-  "dependencies": {
-    "tap": "^0.4.11"
   }
 }

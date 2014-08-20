@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -o errexit
+set -o nounset
+
+TEST_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+for spec in $TEST_DIR/specs/*.sh; do
+  /usr/bin/env bash $spec
+done

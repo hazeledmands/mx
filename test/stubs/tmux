@@ -1,11 +1,18 @@
-#!/usr/bin/env node
-var fs = require('fs');
-var path = require('path');
-var SESSIONS = __dirname + '/.sessions'
-var args = process.argv;
+#!/usr/bin/env bash
 
-if(args.indexOf('list-sessions') > 0) {
-  fs.createReadStream(SESSIONS).pipe(process.stdout);
-} else {
-  console.log(path.basename(process.cwd()) + "> tmux " + args.splice(2).join(' '));
+CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/" && pwd )"
+
+function containsElement () {
+  local e
+  for e in "${@:2}"; do
+    [[ "$e" == "$1" ]] && return 0
+  done
+  return 1
 }
+
+if containsElement "list-sessions" "$@"; then
+  cat $CURR_DIR/.sessions
+  exit 0
+fi
+
+echo ":::STUB_TMUX:::$(basename $PWD)> tmux $@"
