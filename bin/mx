@@ -50,6 +50,9 @@ else
   readonly projects_directory=~
 fi
 
+echo \$PROJECTS: ${PROJECTS:-}
+echo \$projects_directory: $projects_directory
+
 # What is the path for the session we want to connect to?
 if [[ $# = 0 ]]; then
   session_path=$PWD
