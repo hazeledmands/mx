@@ -88,9 +88,9 @@ run_mx() {
   fi
   unset IFS
 
-  # for i in "${INVOCATIONS[@]}"; do
-  #   echo $i
-  # done
+  for i in "${INVOCATIONS[@]}"; do
+    echo $i
+  done
 }
 
 expect_successful_run() {
