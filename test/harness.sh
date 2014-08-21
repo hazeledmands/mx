@@ -22,6 +22,7 @@ tap_header() {
     return 0
   fi
   echo "TAP version 13"
+  echo "# Using bash $BASH_VERSION"
   TAP_HEADER=true
 }
 
