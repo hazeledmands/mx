@@ -126,6 +126,6 @@ expect_no_invocation() {
       tap_failure "sub-command '$subcmd' was invoked"
       return 0
     fi
-    tap_success "sub-command '$subcmd' was not invoked"
   done
+  tap_success "sub-command '$subcmd' was not invoked"
 }
