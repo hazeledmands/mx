@@ -1,8 +1,8 @@
 # Contributing
 
-If you're changing anything, you'll want to run the tests. They're written in [node.js](http://nodejs.org/), which means you'll need to [install node and npm on your system](http://nodejs.org/download/).
+If you're changing anything, you'll want to run the tests, and perhaps add one.
+They're written in bash and output in [TAP](http://testanything.org/) format.
 
-Then:
-
-1. `npm install`
-2. `npm test`
+```sh
+make test
+```
