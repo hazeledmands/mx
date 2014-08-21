@@ -19,7 +19,6 @@ get_abs_filename() {
 }
 
 # Are we in a tmux session?
-echo \$TMUX: ${TMUX:-}
 if [[ -n ${TMUX:-} ]]; then
   inside_tmux_session=1
   TMUX= # clear out the TMUX variable locally so we can create (non-nested) sessions
@@ -50,9 +49,6 @@ elif [[ -d ~/projects ]]; then
 else
   readonly projects_directory=~
 fi
-
-echo \$PROJECTS: ${PROJECTS:-}
-echo \$projects_directory: $projects_directory
 
 # What is the path for the session we want to connect to?
 if [[ $# = 0 ]]; then
