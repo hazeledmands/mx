@@ -9,6 +9,7 @@ MOCKS_DIR=$TEST_DIR/mocks
 MX=$BASE_DIR/bin/mx
 
 PATH=$STUBS_DIR:$PATH
+TMUX=foo # pretend to be in a tmux session even if we aren't
 PROJECTS=$MOCKS_DIR/projects
 
 TAP_HEADER=false
@@ -117,6 +118,7 @@ expect_invocation_to_have_argument() {
       return 0
     fi
   done
+  tap_failure "sub-command '$subcmd' was never invoked"
 }
 
 expect_no_invocation() {
