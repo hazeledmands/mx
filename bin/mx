@@ -19,6 +19,7 @@ get_abs_filename() {
 }
 
 # Are we in a tmux session?
+echo \$TMUX: ${TMUX:-}
 if [[ -n ${TMUX:-} ]]; then
   inside_tmux_session=1
   TMUX= # clear out the TMUX variable locally so we can create (non-nested) sessions

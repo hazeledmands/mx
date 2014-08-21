@@ -8,9 +8,9 @@ MOCKS_DIR=$TEST_DIR/mocks
 
 MX=$BASE_DIR/bin/mx
 
-PATH=$STUBS_DIR:$PATH
-TMUX=foo # pretend to be in a tmux session even if we aren't
-PROJECTS=$MOCKS_DIR/projects
+export PATH=$STUBS_DIR:$PATH
+export TMUX='foo' # pretend to be in a tmux session even if we aren't
+export PROJECTS=$MOCKS_DIR/projects
 
 TAP_HEADER=false
 TEST_PLANNED=-1
