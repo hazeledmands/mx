@@ -67,7 +67,7 @@ readonly session_path
 config_file=$session_path/.tmux
 windows=()
 commands=()
-if [[ -x $config_file ]]; then
+if [[ -f $config_file ]]; then
   while read line; do
     window_count=${#windows[@]}
     if [[ $line =~ $REGEX_SECTION ]]; then

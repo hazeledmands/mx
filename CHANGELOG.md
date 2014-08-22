@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project follows [SemVer 2.0.0](http://www.semver.org).
 
+## unreleased
+
+### Added
+- Nothing.
+
+### Deprecated
+- Nothing.
+
+### Removed
+- Nothing.
+
+### Fixed
+- When a directory named `.tmux` is in the project folder, previously `mx` would crash. Now it ignores the directory.
+
 ## 1.0.0 marigold xerography - 2014-08-19
 
 ### Added

@@ -2,11 +2,11 @@
 source "$( dirname "${BASH_SOURCE[0]}" )/../harness.sh"
 
 function creating_a_session_with_a_tmux_file() {
-  run_mx conf
+  run_mx good_conf
 
   expect_invocation_to_have_argument new-session "-s wahoo"
   expect_invocation_to_have_argument new-session "-n first"
-  expect_invocation_to_have_argument new-session "-c $PROJECTS/conf"
+  expect_invocation_to_have_argument new-session "-c $PROJECTS/good_conf"
 
   expect_invocation_to_have_argument new-window "-n second"
 
