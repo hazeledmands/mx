@@ -72,19 +72,19 @@ tap_ran_test() {
 
 tap_success() {
   tap_header
-  echo "ok $TEST_NUMBER $1"
+  echo "ok $TEST_NUMBER - $1"
   tap_ran_test
 }
 
 tap_failure() {
   TEST_FAILURES=$((TEST_FAILURES+1))
   tap_header
-  echo "not ok $TEST_NUMBER $1"
+  echo "not ok $TEST_NUMBER - $1"
   tap_ran_test
 }
 
 tap_harness_err() {
-  echo "not ok $1"
+  echo "not ok - $1"
   exit -1
 }
 
