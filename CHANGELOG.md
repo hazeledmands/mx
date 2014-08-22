@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project follows [SemVer 2.0.0](http://www.semver.org).
 
-## unreleased
+## 1.0.1 marigold xerography p1 - 2014-08-22
 
 ### Added
 - Nothing.
