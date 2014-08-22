@@ -45,6 +45,7 @@ tap_run() {
   done
   TAP_SPEC_FUNCTIONS=()
   TAP_REGISTER_COUNT=0
+  tap_done
 }
 
 tap_header() {
