@@ -83,7 +83,7 @@ if [[ -f $config_file ]]; then
     fi
   done < $config_file
 
-  if [[ ${#windows} -eq 0 ]]; then
+  if [[ ${#windows[@]} -eq 0 ]]; then
     windows[0]=shell
   fi
 else
