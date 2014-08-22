@@ -119,7 +119,7 @@ if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session_name"\$); the
       $tmux_cmd new-window -c "$session_path" -n "$window_name" -t "$session_name"
     fi
     if [[ -n "$window_command" ]]; then
-      $tmux_cmd send-keys -t "$window_address" "$window_command"
+      $tmux_cmd send-keys -t "$window_address" $window_command
     fi
   done
 

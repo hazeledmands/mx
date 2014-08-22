@@ -13,6 +13,7 @@ MX=$BASE_DIR/bin/mx
 export PATH=$STUBS_DIR:$PATH
 export TMUX='foo' # pretend to be in a tmux session even if we aren't
 export PROJECTS=$MOCKS_DIR/projects
+export EDITOR='derp-edit'
 
 source $TEST_DIR/tap.sh
 
@@ -40,15 +41,32 @@ expect_successful_run() {
 
 expect_invocation_to_have_argument() {
   local subcmd=$1
-  local arg=$2
+  local args=("$@")
+
+  unset args[0]
+  args=("${args[@]}")
+
+  local arg=''
+  local pretty_arg=''
+  local arg_segment
+
+  for arg_segment in ${args[@]}; do
+    if [[ "${#arg}" -ne 0 ]]; then
+      arg+=' '
+      pretty_arg+=' '
+    fi
+    arg+="'$arg_segment'"
+    pretty_arg+="$arg_segment"
+  done
+
   local invocation
 
   for invocation in "${INVOCATIONS[@]}"; do
     if [[ $invocation =~ $subcmd ]]; then
       if [[ $invocation =~ $arg ]]; then
-        tap_success "sub-command '$subcmd' had argument '$arg'"
+        tap_success "sub-command '$subcmd' had argument(s) '$pretty_arg'"
       else
-        tap_failure "sub-command '$subcmd' did not have argument '$arg'"
+        tap_failure "sub-command '$subcmd' did not have argument(s) '$pretty_arg'"
       fi
       return 0
     fi

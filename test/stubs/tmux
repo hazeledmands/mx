@@ -15,4 +15,9 @@ if containsElement "list-sessions" "$@"; then
   exit 0
 fi
 
-echo ":::STUB_TMUX:::$(basename $PWD)> tmux $@"
+quoted_args=()
+for arg; do
+  quoted_args+=("'$arg'")
+done
+
+echo ":::STUB_TMUX:::$(basename $PWD)> tmux ${quoted_args[@]}"

@@ -16,6 +16,7 @@ This project follows [SemVer 2.0.0](http://www.semver.org).
 ### Fixed
 - When a directory named `.tmux` is in the project folder, previously `mx` would crash. Now it ignores the directory.
 - When a `.tmux` file has no instructions, previously `mx` would crash. Now it just creates a single window.
+- When `mx` sends commands to the tmux session, it escapes those commands properly. (Before, it would just print a bunch of garbage on the screen. Oops!)
 
 ## 1.0.0 marigold xerography - 2014-08-19
 
