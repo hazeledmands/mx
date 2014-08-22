@@ -3,7 +3,11 @@ set -o errexit
 set -o nounset
 
 TEST_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $TEST_DIR/tap.sh
 
-for spec in $TEST_DIR/specs/*.sh; do
-  /usr/bin/env bash $spec
+SPEC_FILES=($TEST_DIR/specs/*.sh)
+tap_preregister ${#SPEC_FILES[@]}
+
+for spec in "${SPEC_FILES[@]}"; do
+  source $spec
 done

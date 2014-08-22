@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set -o errexit
 set -o nounset
 
@@ -12,74 +14,7 @@ export PATH=$STUBS_DIR:$PATH
 export TMUX='foo' # pretend to be in a tmux session even if we aren't
 export PROJECTS=$MOCKS_DIR/projects
 
-TAP_HEADER=false
-TEST_PLANNED=-1
-TEST_NUMBER=1
-
-TEST_FAILURES=0
-
-tap_header() {
-  if $TAP_HEADER; then
-    return 0
-  fi
-  echo "TAP version 13"
-  echo "# Using bash $BASH_VERSION"
-  TAP_HEADER=true
-}
-
-tap_diagnostic() {
-  tap_header
-
-  echo "# $1"
-}
-
-tap_plan() {
-  tap_header
-
-  if [[ $TEST_PLANNED -ge 0 ]]; then
-    tap_harness_err "not ok Tried to plan twice"
-  fi
-
-  TEST_PLANNED=$1
-
-  echo "1..$TEST_PLANNED"
-}
-
-tap_ran_test() {
-  if [[ $TEST_NUMBER -gt $TEST_PLANNED ]]; then
-    tap_harness_err "More tests ran than were planned"
-  fi
-  TEST_NUMBER=$((TEST_NUMBER+1))
-}
-
-tap_success() {
-  tap_header
-  echo "ok $TEST_NUMBER $1"
-  tap_ran_test
-}
-
-tap_failure() {
-  TEST_FAILURES=$((TEST_FAILURES+1))
-  tap_header
-  echo "not ok $TEST_NUMBER $1"
-  tap_ran_test
-}
-
-tap_harness_err() {
-  echo "not ok $1"
-  exit -1
-}
-
-tap_done() {
-  TEST_NUMBER=$((TEST_NUMBER-1))
-  if [[ $TEST_NUMBER -lt $TEST_PLANNED ]]; then
-    tap_harness_err "Planned for $TEST_PLANNED tests; only $TEST_NUMBER ran."
-  fi
-
-  if [[ $TEST_FAILURES -gt 0 ]]; then
-    exit -1
-  fi
-}
+source $TEST_DIR/tap.sh
 
 run_mx() {
   IFS=$'\n'
