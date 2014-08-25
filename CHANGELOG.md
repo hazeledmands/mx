@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project follows [SemVer 2.0.0](http://www.semver.org).
 
+## Unreleased changes
+
+### Added
+- Moved the bash-completion source code into the bin folder.
+
+### Deprecated
+- Nothing.
+
+### Removed
+- Nothing.
+
+### Fixed
+- Nothing.
+
 ## 1.0.1 marigold xerography p1 - 2014-08-22
 
 ### Added
