@@ -39,7 +39,7 @@ If there is a `.tmux` file in the session's directory, execute that file. Otherw
   - Prerequisites:
     - [`bash v3.2.0`](http://www.gnu.org/software/bash/) or higher (OS X Mavericks ships with `3.2.51` by default)
     - [`tmux 1.9`](http://tmux.sourceforge.net) or higher
-  - Download and execute [mx](https://github.com/demands/mx/releases/download/v1.0.1/mx) as a binary.
+  - Download and execute [`mx`](https://github.com/demands/mx/releases/download/v1.0.1/mx) as a binary.
 
 ## Credits
 
