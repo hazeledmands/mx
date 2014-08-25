@@ -15,7 +15,7 @@ mx leverages the power of [tmux](http://tmux.sourceforge.net/) to create statefu
 
 ## Demo
 
-![An animated image of someone using mx -- read below for more information](https://raw.github.com/demands/mx/master/demo.gif)
+![An animated image of someone using mx -- read below for more information](https://raw.github.com/demands/mx/master/doc/demo.gif)
 
 ## Usage
 
