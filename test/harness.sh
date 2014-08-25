@@ -18,17 +18,26 @@ export EDITOR='derp-edit'
 source $TEST_DIR/tap.sh
 
 run_mx() {
+  local all_mx_output
+
   IFS=$'\n'
-  if INVOCATIONS=($($MX "$@")); then
+  if all_mx_output=($($MX "$@")); then
     LAST_RUN=$?
   else
     LAST_RUN=$?
   fi
-  unset IFS
 
-  # for i in "${INVOCATIONS[@]}"; do
-  #   echo $i
-  # done
+  MX_OUTPUT=()
+  INVOCATIONS=()
+  for i in "${all_mx_output[@]}"; do
+    if [[ $i =~ ':::STUB_TMUX:::' ]]; then
+      INVOCATIONS[${#INVOCATIONS[@]}]="${i:15}"
+    else
+      MX_OUTPUT[${#MX_OUTPUT[@]}]=$i
+    fi
+  done
+
+  unset IFS
 }
 
 expect_successful_run() {
@@ -84,4 +93,28 @@ expect_no_invocation() {
     fi
   done
   tap_success "sub-command '$subcmd' was not invoked"
+}
+
+expect_invocation_count() {
+  if [[ ${#INVOCATIONS[@]} -eq $1 ]]; then
+    tap_success "tmux was invoked $1 times"
+  else
+    tap_failure "tmux was invoked ${#INVOCATIONS[@]} times, expected $1"
+  fi
+}
+
+expect_output() {
+  local expected_output=$1
+
+  if [[ ${#MX_OUTPUT[@]} -gt 0 ]]; then
+    for output in "${MX_OUTPUT[@]}"; do
+      if [[ $output =~ $expected_output ]]; then
+        tap_success "outputted $expected_output"
+        return 0
+      fi
+    done
+  fi
+
+  tap_failure "did not output $expected_output"
+  return -255
 }

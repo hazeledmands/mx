@@ -6,7 +6,7 @@ Therefore, whoever you are, and whatever your background, I welcome your involve
 
 ## Experiencing problems?
 
-Please open an [issue on GitHub](https://github.com/demands/mx/issues/new). In the issue, be sure to note what version of `mx` you're currently running.
+Please open an [issue on GitHub](https://github.com/demands/mx/issues/new). In the issue, be sure to note what version of `mx` you're currently running. (You can get this information with `mx --version`.)
 
 If you're feeling especially motivated, it'd be amazing if you included a pull request with a failing test demonstrating your issue!
 

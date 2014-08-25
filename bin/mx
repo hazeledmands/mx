@@ -9,6 +9,7 @@ fi
 set -o errexit
 set -o nounset
 
+readonly VERSION=1.0.1
 
 readonly REGEX_SETTING="^(session|cmd)=(.*)$"
 readonly REGEX_SECTION="^\[([a-zA-Z_]+)\]"
@@ -17,6 +18,12 @@ get_abs_filename() {
   # $1 : relative filename
   echo "$(cd "$(dirname "$1")" && pwd)/"$(basename "$1")""
 }
+
+# Do we want the version?
+if [[ ${1:-''} == '--version' ]] || [[ ${1:-''} == '-v' ]]; then
+  echo "mx version $VERSION"
+  exit 0
+fi
 
 # Are we in a tmux session?
 if [[ -n ${TMUX:-} ]]; then

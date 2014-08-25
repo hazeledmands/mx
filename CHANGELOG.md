@@ -6,6 +6,7 @@ This project follows [SemVer 2.0.0](http://www.semver.org).
 
 ### Added
 - Moved the bash-completion source code into the bin folder.
+- Get the current version of `mx` with `mx --version` or `mx -v`.
 
 ### Deprecated
 - Nothing.
