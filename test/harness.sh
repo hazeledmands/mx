@@ -18,26 +18,19 @@ export EDITOR='derp-edit'
 source $TEST_DIR/tap.sh
 
 run_mx() {
-  local all_mx_output
-
-  IFS=$'\n'
-  if all_mx_output=($($MX "$@")); then
-    LAST_RUN=$?
-  else
-    LAST_RUN=$?
-  fi
+  local all_mx_output=$($MX "$@")
+  LAST_RUN=$?
 
   MX_OUTPUT=()
   INVOCATIONS=()
-  for i in "${all_mx_output[@]}"; do
-    if [[ $i =~ ':::STUB_TMUX:::' ]]; then
-      INVOCATIONS[${#INVOCATIONS[@]}]="${i:15}"
-    else
-      MX_OUTPUT[${#MX_OUTPUT[@]}]=$i
-    fi
-  done
 
-  unset IFS
+  while read mx_line; do
+    if [[ $mx_line =~ ':::STUB_TMUX:::' ]]; then
+      INVOCATIONS[${#INVOCATIONS[@]}]="${mx_line:15}"
+    else
+      MX_OUTPUT[${#MX_OUTPUT[@]}]=$mx_line
+    fi
+  done <<< "$all_mx_output"
 }
 
 expect_successful_run() {
