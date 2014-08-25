@@ -2,7 +2,7 @@
 
 I, [Max Edmands](http://www.maxedmands.com), care strongly about building and maintaining diverse, inclusive, respectful communities around the code I write, including this project.
 
-Therefore, whoever you are, and whatever your background, I welcome your involvement, thoughts, and feedback. If you would prefer to contact me privately instead of using a GitHub issue, [you cna use this contact form](https://squaresend.com/mailto:pxo6mtg).
+Therefore, whoever you are, and whatever your background, I welcome your involvement, thoughts, and feedback. If you would prefer to contact me privately instead of using a GitHub issue, [you can use this contact form](https://squaresend.com/mailto:pxo6mtg).
 
 ## Experiencing problems?
 
