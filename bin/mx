@@ -14,9 +14,50 @@ readonly VERSION=1.0.1
 readonly REGEX_SETTING="^(session|cmd)=(.*)$"
 readonly REGEX_SECTION="^\[([a-zA-Z_]+)\]"
 
-get_abs_filename() {
+function get_abs_filename() {
   # $1 : relative filename
   echo "$(cd "$(dirname "$1")" && pwd)/"$(basename "$1")""
+}
+
+function send_keys {
+  local full_cmd="$1"
+  local session="$2"
+  local in_quotes=0
+  local escaped=0
+  local args=()
+  local current_arg=''
+  local i
+
+  for (( i = 0; i < ${#full_cmd}; i++ )); do
+    local char=${full_cmd:$i:1}
+
+    if   [[ "$escaped" -eq 1 ]]; then
+      escaped=0
+
+    elif [[ "$in_quotes" -eq 0 ]]; then
+      if [[ "$char" =~ " " ]] && [[ ${#current_arg} -gt 0 ]]; then
+        args[${#args[@]}]="$current_arg"
+        current_arg=''
+        continue
+      elif [[ "$char" == "'" ]]; then
+        in_quotes=1
+        continue
+      elif [[ "$char" == "\\" ]]; then
+        escaped=1
+        continue
+      fi
+
+    elif [[ "$in_quotes" -eq 1 ]] && [[ "$char" == "'" ]]; then
+      in_quotes=0
+      continue
+    fi
+
+    current_arg+="$char"
+  done
+
+  args[${#args[@]}]="$current_arg"
+
+  $tmux_cmd send-keys -t "$session" "${args[@]}"
 }
 
 # Do we want the version?
@@ -71,24 +112,24 @@ fi
 readonly session_path
 
 # Is there a config file in the session directory?
-config_file=$session_path/.tmux
+config_file="$session_path/.tmux"
 windows=()
 commands=()
-if [[ -f $config_file ]]; then
+if [[ -f "$config_file" ]]; then
   while read line; do
-    window_count=${#windows[@]}
-    if [[ $line =~ $REGEX_SECTION ]]; then
-      windows[$window_count]=${BASH_REMATCH[1]}
-    elif [[ $line =~ $REGEX_SETTING ]]; then
-      cmd=${BASH_REMATCH[1]}
-      val=${BASH_REMATCH[2]}
-      if [[ $cmd == 'session' ]] && [[ $window_count -eq 0 ]]; then
-        session_name=$val
-      elif [[ $cmd == 'cmd' ]] && [[ $window_count -ge 1 ]]; then
-        commands[$(( $window_count - 1 ))]=$val
+    window_count="${#windows[@]}"
+    if [[ "$line" =~ $REGEX_SECTION ]]; then
+      windows["$window_count"]="${BASH_REMATCH[1]}"
+    elif [[ "$line" =~ $REGEX_SETTING ]]; then
+      cmd="${BASH_REMATCH[1]}"
+      val="${BASH_REMATCH[2]}"
+      if [[ "$cmd" == 'session' ]] && [[ "$window_count" -eq 0 ]]; then
+        session_name="$val"
+      elif [[ "$cmd" == 'cmd' ]] && [[ "$window_count" -ge 1 ]]; then
+        commands["$(( $window_count - 1 ))"]=$val
       fi
     fi
-  done < $config_file
+  done < "$config_file"
 
   if [[ ${#windows[@]} -eq 0 ]]; then
     windows[0]=shell
@@ -125,8 +166,9 @@ if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session_name"\$); the
     else
       $tmux_cmd new-window -c "$session_path" -n "$window_name" -t "$session_name"
     fi
+
     if [[ -n "$window_command" ]]; then
-      $tmux_cmd send-keys -t "$window_address" $window_command
+      send_keys "$window_command" "$window_address"
     fi
   done
 

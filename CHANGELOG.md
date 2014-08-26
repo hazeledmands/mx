@@ -15,7 +15,7 @@ This project follows [SemVer 2.0.0](http://www.semver.org).
 - Nothing.
 
 ### Fixed
-- Nothing.
+- If you specified shell commands in `.tmux` configuration files, quoting and string interpolation was all messed up. This is fixed now.
 
 ## 1.0.1 marigold xerography p1 - 2014-08-22
 

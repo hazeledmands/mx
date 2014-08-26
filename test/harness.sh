@@ -25,7 +25,7 @@ run_mx() {
   INVOCATIONS=()
 
   while read mx_line; do
-    if [[ $mx_line =~ ':::STUB_TMUX:::' ]]; then
+    if [[ "$mx_line" =~ ':::STUB_TMUX:::' ]]; then
       INVOCATIONS[${#INVOCATIONS[@]}]="${mx_line:15}"
     else
       MX_OUTPUT[${#MX_OUTPUT[@]}]=$mx_line
@@ -43,48 +43,40 @@ expect_successful_run() {
 
 expect_invocation_to_have_argument() {
   local subcmd=$1
-  local args=("$@")
+  shift
 
-  unset args[0]
-  args=("${args[@]}")
-
-  local arg=''
-  local pretty_arg=''
-  local arg_segment
-
-  for arg_segment in ${args[@]}; do
-    if [[ "${#arg}" -ne 0 ]]; then
-      arg+=' '
-      pretty_arg+=' '
-    fi
-    arg+="'$arg_segment'"
-    pretty_arg+="$arg_segment"
+  local unquoted_args=$@
+  local quoted_args=()
+  for arg; do
+    quoted_args+=("'$arg'")
   done
+  quoted_args="${quoted_args[@]}"
 
-  local invocation
+  invocations_with_subcommands "$subcmd"
+  if [[ "${#SUB_INVOCATIONS[@]}" -eq 0 ]]; then
+    tap_failure "sub-command '$subcmd' was never invoked"
+    return
+  fi
 
-  for invocation in "${INVOCATIONS[@]}"; do
-    if [[ $invocation =~ $subcmd ]]; then
-      if [[ $invocation =~ $arg ]]; then
-        tap_success "sub-command '$subcmd' had argument(s) '$pretty_arg'"
-      else
-        tap_failure "sub-command '$subcmd' did not have argument(s) '$pretty_arg'"
-      fi
-      return 0
+  for invocation in "${SUB_INVOCATIONS[@]}"; do
+    if [[ "$invocation" =~ "$quoted_args" ]]; then
+      tap_success "sub-command '$subcmd' had argument(s) '$unquoted_args'"
+    else
+      tap_failure "sub-command '$subcmd' did not have argument(s) '$unquoted_args'"
     fi
+    return
   done
-  tap_failure "sub-command '$subcmd' was never invoked"
 }
 
 expect_no_invocation() {
   local subcmd=$1
 
-  for invocation in "${INVOCATIONS[@]}"; do
-    if [[ $invocation =~ $subcmd ]]; then
-      tap_failure "sub-command '$subcmd' was invoked"
-      return 0
-    fi
-  done
+  invocations_with_subcommands "$subcmd"
+  if [[ "${#SUB_INVOCATIONS[@]}" -gt 0 ]]; then
+    tap_failure "sub-command '$subcmd' was invoked"
+    return 0
+  fi
+
   tap_success "sub-command '$subcmd' was not invoked"
 }
 
@@ -110,4 +102,15 @@ expect_output() {
 
   tap_failure "did not output $expected_output"
   return -255
+}
+
+invocations_with_subcommands() {
+  local subcmd=$1
+  SUB_INVOCATIONS=()
+
+  for invocation in "${INVOCATIONS[@]}"; do
+    if [[ "$invocation" =~ "$subcmd" ]]; then
+      SUB_INVOCATIONS[${#SUB_INVOCATIONS[@]}]="$invocation"
+    fi
+  done
 }
