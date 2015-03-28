@@ -5,7 +5,7 @@ This project follows [SemVer 2.0.0](http://www.semver.org).
 ## Pending changes
 
 ### Added
-- Nothing.
+- Official support for opening projects that are nested more than one level deep inside the `$PROJECTS` directory.
 
 ### Deprecated
 - Nothing.
