@@ -7,7 +7,6 @@ function creating_a_new_tmux_server() {
   export TMUX
   run_mx red_sofa_project
   TMUX=$local_tmux
-  echo error: $MX_STDERR
 
   expect_no_stderr
   expect_invocation_to_have_argument new-session -c "$MOCKS_DIR/red_sofa_project"
