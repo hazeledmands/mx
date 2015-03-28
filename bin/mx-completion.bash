@@ -1,9 +1,6 @@
 _mx_completion()
 {
-  local cur
-  cur="${COMP_WORDS[COMP_CWORD]}"
-
-  COMPREPLY=( $(compgen -W "$(ls $PROJECTS)" -- $cur) )
+  COMPREPLY=( $(compgen -f "$PROJECTS/${COMP_WORDS[$COMP_CWORD]}")  )
   return 0
 }
 
