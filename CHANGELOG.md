@@ -14,7 +14,7 @@ This project follows [SemVer 2.0.0](http://www.semver.org).
 - Nothing.
 
 ### Fixed
-- Nothing.
+- Avoid printing unuseful message to stderr when there's no running `tmux` server.
 
 ## 1.1.0 marigold xebec - 2014-08-25
 (A xebec is a small three-masted Mediterranean sailing ship with lateen and sometimes square sails.)

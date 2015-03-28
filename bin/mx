@@ -152,7 +152,7 @@ session_name=${session_name:=$(basename $session_path)} # by default, use the di
 readonly session_name="${session_name//./_}" # replace dots with underscores
 
 # Create the session, if it doesn't already exist
-if ! ($tmux_cmd list-sessions | cut -d':' -f1 | grep -q ^"$session_name"\$); then
+if ! ($tmux_cmd list-sessions 2>/dev/null | cut -d':' -f1 | grep -q ^"$session_name"\$); then
 
   window_count=${#windows[@]}
 

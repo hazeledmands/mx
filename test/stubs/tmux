@@ -11,6 +11,7 @@ function containsElement () {
 }
 
 if containsElement "list-sessions" "$@"; then
+  echo "Failed to connect to tmux server" 1>&2
   cat $CURR_DIR/.sessions
   exit 0
 fi

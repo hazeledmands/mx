@@ -18,17 +18,19 @@ export EDITOR='derp-edit'
 source $TEST_DIR/tap.sh
 
 run_mx() {
-  local all_mx_output=$($MX "$@")
+  local all_mx_output=$($MX "$@" 2>~errfile)
   LAST_RUN=$?
 
-  MX_OUTPUT=()
+  MX_STDOUT=()
+  MX_STDERR=$(<~errfile)
+  rm ~errfile
   INVOCATIONS=()
 
   while read mx_line; do
     if [[ "$mx_line" =~ ':::STUB_TMUX:::' ]]; then
       INVOCATIONS[${#INVOCATIONS[@]}]="${mx_line:15}"
     else
-      MX_OUTPUT[${#MX_OUTPUT[@]}]=$mx_line
+      MX_STDOUT[${#MX_STDOUT[@]}]=$mx_line
     fi
   done <<< "$all_mx_output"
 }
@@ -91,8 +93,8 @@ expect_invocation_count() {
 expect_output() {
   local expected_output=$1
 
-  if [[ ${#MX_OUTPUT[@]} -gt 0 ]]; then
-    for output in "${MX_OUTPUT[@]}"; do
+  if [[ ${#MX_STDOUT[@]} -gt 0 ]]; then
+    for output in "${MX_STDOUT[@]}"; do
       if [[ $output =~ $expected_output ]]; then
         tap_success "outputted $expected_output"
         return 0
@@ -102,6 +104,14 @@ expect_output() {
 
   tap_failure "did not output $expected_output"
   return -255
+}
+
+expect_no_stderr() {
+  if [[ -n $MX_STDERR ]]; then
+    tap_failure "expected no output to stderr; got \"$MX_STDERR\""
+  else
+    tap_success "no output to stderr"
+  fi
 }
 
 invocations_with_subcommands() {
