@@ -2,16 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project follows [SemVer 2.0.0](http://www.semver.org).
 
-## Pending changes
+## 1.2.0 marigold xystus - 2015-03-28
+(A xystus is a covered porch or portico used for outdoor excercises during inclement weather.)
 
 ### Added
 - Official support for opening projects that are nested more than one level deep inside the `$PROJECTS` directory.
-
-### Deprecated
-- Nothing.
-
-### Removed
-- Nothing.
+- Slightly improved completion logic, lets you complete inside directories
 
 ### Fixed
 - Avoid printing unuseful message to stderr when there's no running `tmux` server.
