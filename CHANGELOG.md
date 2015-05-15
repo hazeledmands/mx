@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project follows [SemVer 2.0.0](http://www.semver.org).
 
+## Pending changes
+
+### Fixed
+- mx now handles different values for tmux's `base-index` setting. (Previously,
+  it only supported the value `1`, which was sucky because the default value was
+  `0`. See [issue #11](https://github.com/demands/mx/issues/11) for more.)
+
 ## 1.2.0 marigold xystus - 2015-03-28
 (A xystus is a covered porch or portico used for outdoor excercises during inclement weather.)
 

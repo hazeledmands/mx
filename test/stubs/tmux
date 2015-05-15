@@ -16,6 +16,11 @@ if containsElement "list-sessions" "$@"; then
   exit 0
 fi
 
+if containsElement "show-options" "$@"; then
+  echo 1
+  exit 0
+fi
+
 quoted_args=()
 for arg; do
   quoted_args+=("'$arg'")

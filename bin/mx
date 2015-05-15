@@ -158,14 +158,19 @@ if ! ($tmux_cmd list-sessions 2>/dev/null | cut -d':' -f1 | grep -q ^"$session_n
 
   for (( i = 0; i < $window_count; i++ )); do
     window_name=${windows[i]}
-    window_address="$session_name:$(( $i + 1 ))"
-    window_command="${commands[$i]:-}"
 
     if [[ $i -eq 0 ]]; then
       $tmux_cmd new-session -c "$session_path" -s "$session_name" -n "$window_name" -d
+      base_index=$($tmux_cmd show-options -q -v -t "$session_name" base-index)
+      if [[ -z "$base_index" ]]; then
+        base_index=0
+      fi
     else
       $tmux_cmd new-window -c "$session_path" -n "$window_name" -t "$session_name"
     fi
+
+    window_address="$session_name:$(( $i + $base_index ))"
+    window_command="${commands[$i]:-}"
 
     if [[ -n "$window_command" ]]; then
       send_keys "$window_command" "$window_address"
