@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project follows [SemVer 2.0.0](http://www.semver.org).
 
-## Pending changes
+## 1.2.1 marigold xystus p1 - 2015-05-15
 
 ### Fixed
 - mx now handles different values for tmux's `base-index` setting. (Previously,
