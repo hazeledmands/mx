@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project follows [SemVer 2.0.0](http://www.semver.org).
 
-## Pending changes
+## 1.2.2 marigold xystus p2 - 2015-05-15
 
 ### Fixed
 - Actually correctly fix the problem I thought I fixed in release 1.2.1 D:

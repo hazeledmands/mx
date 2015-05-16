@@ -1,6 +1,6 @@
 # mx
 
-[![Release v1.2.1](http://img.shields.io/badge/release-v1.2.1-blue.svg?style=flat)](https://github.com/demands/mx/releases/latest) *
+[![Release v1.2.2](http://img.shields.io/badge/release-v1.2.2-blue.svg?style=flat)](https://github.com/demands/mx/releases/latest) *
 [![Build status -- hopefully passing](http://img.shields.io/travis/demands/mx.svg?style=flat)](https://travis-ci.org/demands/mx)
 
 Do you suffer from **short programming attention span**?
