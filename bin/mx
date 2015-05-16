@@ -169,7 +169,6 @@ if ! ($tmux_cmd list-sessions 2>/dev/null | cut -d':' -f1 | grep -q ^"$session_n
       $tmux_cmd new-window -c "$session_path" -n "$window_name" -t "$session_name"
     fi
 
-    echo base_index=$base_index
     window_address="$session_name:$(( $i + $base_index ))"
     window_command="${commands[$i]:-}"
 
