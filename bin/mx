@@ -9,7 +9,7 @@ fi
 set -o errexit
 set -o nounset
 
-readonly VERSION=1.2.2
+readonly VERSION=1.3.0
 
 readonly REGEX_SETTING="^(session|cmd)=(.*)$"
 readonly REGEX_SECTION="^\[([a-zA-Z_]+)\]"
