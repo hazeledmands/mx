@@ -1,0 +1,2 @@
+#compdef mx
+_path_files -/ -W $PROJECTS

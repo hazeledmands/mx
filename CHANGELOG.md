@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project follows [SemVer 2.0.0](http://www.semver.org).
 
+## Pending changes
+
+### Added
+- zsh completion
+
 ## 1.2.2 marigold xystus p2 - 2015-05-15
 
 ### Fixed
